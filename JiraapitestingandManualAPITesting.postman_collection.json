@@ -1,0 +1,525 @@
+{
+	"info": {
+		"_postman_id": "4272a8d2-473a-487a-bd45-f09a373bc1f2",
+		"name": "JiraapitestingandManualAPITesting",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31096429",
+		"_collection_link": "https://learningacademy.postman.co/workspace/learning-Workspace~bb97f662-456e-46f8-8f6c-33834796fe74/collection/31096429-4272a8d2-473a-487a-bd45-f09a373bc1f2?action=share&source=collection_link&creator=31096429"
+	},
+	"item": [
+		{
+			"name": "SuccessfulResponses",
+			"item": [
+				{
+					"name": "GETProjects",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const resp = pm.response.json()\r",
+									"console.log(resp)\r",
+									"//console.log(resp.values)\r",
+									"//SET COLLECTION VARIABLE\r",
+									"//pm.collectionVariables.set('id',resp.values[2].id)\r",
+									"//values = resp.values\r",
+									"//console.log(values)\r",
+									"//const names = console.log(values.map((value) => value.name))\r",
+									"for(i=0;i<resp.values.length;i++){\r",
+									"if(resp.values[i].name === 'learn'){\r",
+									"    pm.collectionVariables.set('ProjectID',resp.values[i].id)\r",
+									"}\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{jira_token}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "joshnachandra123@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://learningbasics.atlassian.net/rest/api/3/project/search",
+							"protocol": "https",
+							"host": [
+								"learningbasics",
+								"atlassian",
+								"net"
+							],
+							"path": [
+								"rest",
+								"api",
+								"3",
+								"project",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetIssueTypeForProject",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const resp = pm.response.json()\r",
+									"console.log(resp)\r",
+									"//console.log(resp.map((value) => value.id))\r",
+									"\r",
+									"//SET collection variable with MAP method\r",
+									"//const values = console.log(resp.map((value)=>value.name))\r",
+									"//console.log(values)\r",
+									"//console.log(values.indexOf(\"Bug\"))\r",
+									"//pm.collectionVariables.set('issuetypeidmap',resp[values.indexOf(\"Bug\")].id)\r",
+									"\r",
+									"//SET collection variable with for loop\r",
+									"/*\r",
+									"for(i=0;i<resp.length;i++){\r",
+									"if(resp[i].name === 'Epic'){\r",
+									"    pm.collectionVariables.set('issuetypeId',resp[i].id)\r",
+									"}\r",
+									"}*/\r",
+									"\r",
+									"for(i=0;i<resp.length;i++){\r",
+									"if(resp[i].name === pm.iterationData.get(\"issueName\")){\r",
+									"    pm.collectionVariables.set('issuetypeId',resp[i].id)\r",
+									"}\r",
+									"}\r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{jira_token}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "joshnachandra123@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://learningbasics.atlassian.net/rest/api/3/issuetype/project?projectId={{ProjectID}}",
+							"protocol": "https",
+							"host": [
+								"learningbasics",
+								"atlassian",
+								"net"
+							],
+							"path": [
+								"rest",
+								"api",
+								"3",
+								"issuetype",
+								"project"
+							],
+							"query": [
+								{
+									"key": "projectId",
+									"value": "{{ProjectID}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetuserofProject",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const resp = pm.response.json()\r",
+									"console.log(resp)\r",
+									"//SET COLLECTION VARIABLE\r",
+									"/*console.log(resp[0].accountId)\r",
+									"pm.collectionVariables.set('accountId',resp[0].accountId)*/\r",
+									"//map\r",
+									"\r",
+									"pm.collectionVariables.set('accountId',resp[0].accountId)\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{jira_token}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "joshnachandra123@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://learningbasics.atlassian.net/rest/api/3/user/assignable/multiProjectSearch?projectKeys=LEAR",
+							"protocol": "https",
+							"host": [
+								"learningbasics",
+								"atlassian",
+								"net"
+							],
+							"path": [
+								"rest",
+								"api",
+								"3",
+								"user",
+								"assignable",
+								"multiProjectSearch"
+							],
+							"query": [
+								{
+									"key": "projectKeys",
+									"value": "LEAR"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TestIssue",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{jira_token}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "joshnachandra123@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://learningbasics.atlassian.net/rest/api/3/issue/:issueIdOrKey",
+							"protocol": "https",
+							"host": [
+								"learningbasics",
+								"atlassian",
+								"net"
+							],
+							"path": [
+								"rest",
+								"api",
+								"3",
+								"issue",
+								":issueIdOrKey"
+							],
+							"variable": [
+								{
+									"key": "issueIdOrKey",
+									"value": "10025"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateIssue",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"//RANDOM TITILE USING OPTIONS\r",
+									"/*var title = pm.collectionVariables.replaceIn(\"{{$randomPhrase}}\")\r",
+									"console.log(title)\r",
+									"pm.collectionVariables.set(\"issueTitle\",title)*/\r",
+									"\r",
+									"//TITLE OF ISSUETYPE BY DATA DRIVEN TESTING\r",
+									"//1st METHOD\r",
+									"/*\r",
+									"var title = pm.collectionVariables.replaceIn(pm.iterationData.get(\"issueTitle\"))\r",
+									"pm.collectionVariables.set(\"issueTitle\",title)\r",
+									"*/\r",
+									"\r",
+									"//2nd METHOD\r",
+									"pm.collectionVariables.set(\"issueTitle\",pm.iterationData.get(\"issueTitle\"))\r",
+									"\r",
+									"/*NOTE:\r",
+									"if iteration data do not work or FAILING for individual requests, use pm.variables and define these variables at collection or global scope*/\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const resp = pm.response.json()\r",
+									"console.log(resp.key)\r",
+									"pm.collectionVariables.set('issueKey',resp.key)\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fields\": {\r\n        \"issuetype\": {\r\n            \"id\": \"{{issuetypeId}}\"\r\n        },\r\n        \"project\": {\r\n            \"id\": \"{{ProjectID}}\"\r\n        },\r\n        \"reporter\": {\r\n            \"id\": \"{{accountId}}\"\r\n        },\r\n        \"summary\": \"{{issueTitle}}\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://learningbasics.atlassian.net/rest/api/3/issue",
+							"protocol": "https",
+							"host": [
+								"learningbasics",
+								"atlassian",
+								"net"
+							],
+							"path": [
+								"rest",
+								"api",
+								"3",
+								"issue"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetIssue",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const resp = pm.response.json()\r",
+									"console.log(resp.fields.summary)\r",
+									"\r",
+									"pm.test(\"summary match\", function () {\r",
+									"    pm.expect(resp.fields.summary).to.eql(pm.collectionVariables.get(\"issueTitle\"));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://learningbasics.atlassian.net/rest/api/3/issue/{{issueKey}}",
+							"protocol": "https",
+							"host": [
+								"learningbasics",
+								"atlassian",
+								"net"
+							],
+							"path": [
+								"rest",
+								"api",
+								"3",
+								"issue",
+								"{{issueKey}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "{{jira_token}}",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "joshnachandra123@gmail.com",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "jira_token",
+			"value": "ATATT3xFfGF0cNgH51X8Gln3-jeBeOQLs2zfCM3fdU7ciQbECqXgTjkp78qIV8oAT-ik5_N-poixHGcqM7FQ8ydUIEHrI1oOzx7Z8HrwRqnQTEMqz5prOJEnQZ3Bf9iTGPD7wnhMbW8Y9STbrEedY63L3pjFk42lhrBc2UYkoj0YRJwzXvQXqb4=BB64C806",
+			"type": "string"
+		},
+		{
+			"key": "accountId",
+			"value": ""
+		},
+		{
+			"key": "issuetypeId",
+			"value": ""
+		},
+		{
+			"key": "ProjectID",
+			"value": ""
+		},
+		{
+			"key": "issueKey",
+			"value": ""
+		},
+		{
+			"key": "issueTitle",
+			"value": ""
+		}
+	]
+}
