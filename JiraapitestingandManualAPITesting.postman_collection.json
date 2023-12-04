@@ -1,10 +1,9 @@
 {
 	"info": {
-		"_postman_id": "4272a8d2-473a-487a-bd45-f09a373bc1f2",
+		"_postman_id": "1804984e-ef4c-4acd-843c-e5e0e4c385b0",
 		"name": "JiraapitestingandManualAPITesting",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "31096429",
-		"_collection_link": "https://learningacademy.postman.co/workspace/learning-Workspace~bb97f662-456e-46f8-8f6c-33834796fe74/collection/31096429-4272a8d2-473a-487a-bd45-f09a373bc1f2?action=share&source=collection_link&creator=31096429"
+		"_exporter_id": "31096429"
 	},
 	"item": [
 		{
@@ -22,8 +21,8 @@
 									"//console.log(resp.values)\r",
 									"//SET COLLECTION VARIABLE\r",
 									"//pm.collectionVariables.set('id',resp.values[2].id)\r",
-									"//values = resp.values\r",
-									"//console.log(values)\r",
+									"values = resp.values\r",
+									"console.log(values)\r",
 									"//const names = console.log(values.map((value) => value.name))\r",
 									"for(i=0;i<resp.values.length;i++){\r",
 									"if(resp.values[i].name === 'learn'){\r",
@@ -51,7 +50,7 @@
 							"basic": [
 								{
 									"key": "password",
-									"value": "{{jira_token}}",
+									"value": "{{token_jira}}",
 									"type": "string"
 								},
 								{
@@ -113,16 +112,20 @@
 									"}\r",
 									"}*/\r",
 									"\r",
+									"\r",
 									"for(i=0;i<resp.length;i++){\r",
 									"if(resp[i].name === pm.iterationData.get(\"issueName\")){\r",
 									"    pm.collectionVariables.set('issuetypeId',resp[i].id)\r",
 									"}\r",
 									"}\r",
 									"\r",
-									"\r",
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
-									"});"
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -134,7 +137,7 @@
 							"basic": [
 								{
 									"key": "password",
-									"value": "{{jira_token}}",
+									"value": "{{token_jira}}",
 									"type": "string"
 								},
 								{
@@ -207,7 +210,7 @@
 							"basic": [
 								{
 									"key": "password",
-									"value": "{{jira_token}}",
+									"value": "{{token_jira}}",
 									"type": "string"
 								},
 								{
@@ -260,7 +263,9 @@
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
-									"});"
+									"});\r",
+									"\r",
+									"const num =3"
 								],
 								"type": "text/javascript"
 							}
@@ -272,7 +277,7 @@
 							"basic": [
 								{
 									"key": "password",
-									"value": "{{jira_token}}",
+									"value": "{{token_jira}}",
 									"type": "string"
 								},
 								{
@@ -329,13 +334,13 @@
 									"\r",
 									"//TITLE OF ISSUETYPE BY DATA DRIVEN TESTING\r",
 									"//1st METHOD\r",
-									"/*\r",
+									"\r",
 									"var title = pm.collectionVariables.replaceIn(pm.iterationData.get(\"issueTitle\"))\r",
 									"pm.collectionVariables.set(\"issueTitle\",title)\r",
-									"*/\r",
+									"\r",
 									"\r",
 									"//2nd METHOD\r",
-									"pm.collectionVariables.set(\"issueTitle\",pm.iterationData.get(\"issueTitle\"))\r",
+									"/*pm.collectionVariables.set(\"issueTitle\",pm.iterationData.get(\"issueTitle\"))*/\r",
 									"\r",
 									"/*NOTE:\r",
 									"if iteration data do not work or FAILING for individual requests, use pm.variables and define these variables at collection or global scope*/\r",
@@ -362,6 +367,21 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{token_jira}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "joshnachandra123@gmail.com",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -465,7 +485,7 @@
 		"basic": [
 			{
 				"key": "password",
-				"value": "{{jira_token}}",
+				"value": "{{token_jira}}",
 				"type": "string"
 			},
 			{
@@ -497,20 +517,19 @@
 	],
 	"variable": [
 		{
-			"key": "jira_token",
-			"value": "ATATT3xFfGF0cNgH51X8Gln3-jeBeOQLs2zfCM3fdU7ciQbECqXgTjkp78qIV8oAT-ik5_N-poixHGcqM7FQ8ydUIEHrI1oOzx7Z8HrwRqnQTEMqz5prOJEnQZ3Bf9iTGPD7wnhMbW8Y9STbrEedY63L3pjFk42lhrBc2UYkoj0YRJwzXvQXqb4=BB64C806",
-			"type": "string"
+			"key": "token_jira",
+			"value": "ATATT3xFfGF0VLrapJL2B8wtkOvmjKd60HQ9IxvbAXfot2jSwhboP4tG4URObtAZdBTdVzMM_v469wHWYbvWfmkZ6q_yjq4VKEQ8pBBn7hbDr_1al75xjfOgkyueu7hgwrYyB5Srt-Ma43AB9Xd6rAEusfwNmipGBofVakrYhQ9R8jCUZf0_6xo=692B6953"
+		},
+		{
+			"key": "ProjectID",
+			"value": ""
 		},
 		{
 			"key": "accountId",
 			"value": ""
 		},
 		{
-			"key": "issuetypeId",
-			"value": ""
-		},
-		{
-			"key": "ProjectID",
+			"key": "issueTitle",
 			"value": ""
 		},
 		{
@@ -518,7 +537,7 @@
 			"value": ""
 		},
 		{
-			"key": "issueTitle",
+			"key": "issuetypeId",
 			"value": ""
 		}
 	]
